@@ -23,7 +23,7 @@ pub async fn decode_read_rows_response(
             }
         }
         let rows_part = decode_read_rows_response_to_vec(res.chunks);
-        for part in rows_part.into_iter() {
+        for part in rows_part {
             rows.push(part?);
         }
     }
