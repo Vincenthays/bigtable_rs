@@ -24,10 +24,7 @@ pub async fn decode_read_rows_response(
         }
         let rows_part = decode_read_rows_response_to_vec(res.chunks);
         for part in rows_part.into_iter() {
-            match part {
-                Ok(part) => rows.push(part),
-                Err(e) => return Err(e),
-            }
+            rows.push(part?);
         }
     }
     Ok(rows)
