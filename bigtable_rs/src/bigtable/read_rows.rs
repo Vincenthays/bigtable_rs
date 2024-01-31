@@ -22,9 +22,8 @@ pub async fn decode_read_rows_response(
                 return Err(Error::TimeoutError(timeout.as_secs()));
             }
         }
-        let rows_part = decode_read_rows_response_to_vec(res.chunks);
-        for part in rows_part {
-            rows.push(part?);
+        for row in decode_read_rows_response_to_vec(res.chunks) {
+            rows.push(row?);
         }
     }
     Ok(rows)
