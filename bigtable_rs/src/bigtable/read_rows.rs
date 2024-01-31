@@ -22,11 +22,13 @@ pub async fn decode_read_rows_response(
                 return Err(Error::TimeoutError(timeout.as_secs()));
             }
         }
-        let rows_part = decode_read_rows_response_to_vec(res.chunks)
-            .into_iter()
-            .collect::<Result<Vec<_>>>()?;
-
-        rows.extend(rows_part);
+        let rows_part = decode_read_rows_response_to_vec(res.chunks);
+        for part in rows_part.into_iter() {
+            match part {
+                Ok(part) => rows.push(part),
+                Err(e) => return Err(e),
+            }
+        }
     }
     Ok(rows)
 }
